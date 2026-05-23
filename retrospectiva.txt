@@ -1,0 +1,31 @@
+retrospectiva
+
+1. ¿Cuáles fueron los mini-ciclos definidos? Justifíquenlos.
+Los ciclos estan en el otro documento
+2. ¿Cuál es el estado actual del proyecto en términos de mini-ciclos? ¿por qué?
+
+3. ¿Cuál fue el tiempo total invertido por cada uno de ustedes? (Horas/Hombre)
+Jhonatan Madero (12 horas)
+Juan Diego Valderrama (12 horas)
+4. ¿Cuál consideran fue el mayor logro? ¿Por qué?
+El mayor logro de la Version 2 fue implementar la persistencia de manera que funcione correctamente con todos los tipos de jugador, enemigo y elemento especial sin necesidad de serializar los objetos directamente. GameSaveManager traduce el estado del juego a pares clave-valor en un archivo .properties y lo reconstruye desde cero al cargar, instanciando cada entidad a traves de las mismas fabricas (PlayerFactory, LevelLoader) que se usan al inicio normal de una partida.
+Esto fue un logro tecnico porque implico que GameState fuera completamente describible en texto plano, lo que a su vez obliga a que el dominio este bien encapsulado: cada entidad debe poder reconstruirse solo con su tipo, posicion y estado basico
+5. ¿Cuál consideran que fue el mayor problema técnico? ¿Qué hicieron para resolverlo?
+El mayor problema tecnico de la Version 2 fue definir correctamente la condicion de victoria en el modo Player vs Player. En el modo de un solo jugador la condicion es simple: el jugador llega a la zona final habiendo recolectado todas las monedas. En el modo PvP esto se complica porque hay dos jugadores con objetivos simetricos pero opuestos: P1 gana si llega a la zona final (lado derecho) y P2 gana si llega a la zona de inicio de P1 (lado izquierdo), y cualquiera de los dos puede morir por enemigos en el camino.
+El problema concreto fue que la maquina de estados de GameState estaba disenada para un solo jugador: un unico estado WON y un unico estado LOST. Extenderla para PvP sin romper el modo single player requirio agregar los estados PVP_P1_WON y PVP_P2_WON y refactorizar todos los puntos donde GameState evaluaba la condicion de fin de juego.
+La solucion fue encapsular la evaluacion de victoria en un metodo privado checkWinCondition() que se comporta diferente segun el GameMode activo. De esta manera el GameLoop no necesita saber en que modo esta: simplemente llama a update() en cada tick y GameState se encarga de transicionar al estado correcto.
+
+6. ¿Qué hicieron bien como equipo? ¿Qué se comprometen a hacer para mejorar los resultados?
+Lo que hicieron bien:
+•	Se mantuvo la division de responsabilidades de V1 (dominio vs presentacion), lo que facilito integrar las nuevas funcionalidades sin conflictos.
+•	Se realizo una sesion de integracion a mitad del ciclo, aplicando el compromiso adquirido en la retrospectiva de V1, lo que permitio detectar a tiempo la incompatibilidad entre el nuevo GameState PvP y la presentacion existente
+
+Compromisos de mejora para la Version 3:
+•	Refactorizar GameState para reducir su tamano: actualmente concentra demasiadas responsabilidades (logica de colision, condicion de victoria, gestion de tiempo) que podrian delegarse a clases auxiliares.
+•	Completar el javadoc de todas las clases publicas antes de la entrega final, no solo de las nuevas.
+
+7. Considerando las prácticas XP incluidas en los laboratorios. ¿cuál fue la más útil? ¿por qué?
+Al igual que en la Version 1, la practica XP mas util fue el Pair Programming. En esta version su valor fue especialmente evidente durante la implementacion del modo PvP y la refactorizacion de GameState.
+Este ultimo caso, que podria haber pasado desapercibido en una revision posterior, fue detectado y resuelto durante la misma sesion de pair programming definiendo una prioridad 
+8. ¿Qué referencias usaron? ¿Cuál fue la más útil? Incluyan citas con estándares adecuados.
+•	Barker, J. (2005). Beginning Java Objects: From Concepts to Code (2.a ed.). APress. Cap. 15.1-15.2 (File I/O). — •	Barker, J. (2005). Beginning Java Objects: From Concepts to Code (2.a ed.). APress. Cap. 7.1-7.4 y Apendice F (polimorfismo y enlace dinamico).
