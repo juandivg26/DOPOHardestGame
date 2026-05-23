@@ -1,0 +1,59 @@
+https://github.com/juandivg26/DOPOHardestGame
+1. Mini-ciclos definidos y justificación
+¿Cuáles fueron los mini-ciclos definidos? Justifíquenlos.
+El proyecto se dividió en tres mini-ciclos semanales, cada uno con un objetivo claro y entregable verificable:
+
+Ciclo	Objetivo	Entregables principales
+Ciclo 1	Estructura base del juego	Clases de dominio (Player, Enemy, Coin, Wall), GameState, LevelLoader, primer nivel jugable.
+Ciclo 2	Modos de juego y variedad	Modos PvP, IA aleatoria y experta (A*), tres tipos de jugador (Red/Blue/Green), tres tipos de enemigo, SkinCoins.
+Ciclo 3	Persistencia, calidad y ajustes finales	Guardado/carga de partida, sistema de puntaje, pruebas JUnit, análisis PMD y cobertura, corrección de bugs.
+
+Esta división se justifica porque cada ciclo agrega una capa funcional completa sobre la anterior, lo que permite probar el juego en cada etapa y detectar problemas temprano sin bloquear el avance del equipo.
+
+2. Estado actual del proyecto
+¿Cuál es el estado actual del proyecto en términos de mini-ciclos? ¿Por qué?
+Los tres mini-ciclos fueron completados. El juego es funcional en todos sus modos (PLAYER, PvP, IA aleatoria e IA experta con A*), los cuatro niveles cargan correctamente, el sistema de puntaje está activo y la persistencia (guardar/cargar) opera sin errores críticos.
+
+
+
+3. Tiempo total invertido (Horas/Hombre)
+¿Cuál fue el tiempo total invertido por cada uno de ustedes?
+
+Integrante	
+Madero	14 h	
+Valderrama 14 h	
+
+
+4. Mayor logro del proyecto
+¿Cuál consideran fue el mayor logro? ¿Por qué?
+El mayor logro fue implementar la IA experta con el algoritmo A* integrada al ciclo de juego real. Este componente fue el más complejo técnicamente: requirió diseñar una representación del tablero como grafo, calcular caminos óptimos en tiempo real y conectarlo al GameLoop sin afectar el rendimiento.
+
+5. Mayor problema técnico
+¿Cuál consideran que fue el mayor problema técnico? ¿Qué hicieron para resolverlo?
+Problema: El juego no encontraba los archivos de configuración de niveles (configs/level1.txt) al ejecutarse desde Eclipse, lanzando el error Cannot read config file.
+
+Causa: LevelLoader usaba rutas relativas, y el directorio de trabajo de Eclipse no coincidía con la carpeta raíz del proyecto donde estaban los archivos .txt.
+
+Solución: Se configuró el Working Directory en Run Configurations de Eclipse apuntando a la carpeta correcta del proyecto (${workspace_loc:DOPOHardestGame/DOPOHardestGame}), lo que resolvió el problema sin modificar el código de producción.
+
+6. Trabajo en equipo
+¿Qué hicieron bien como equipo? ¿Qué se comprometen a hacer para mejorar?
+Lo que hicieron bien:
+•	División clara de responsabilidades por ciclo, lo que evitó conflictos de código.
+•	Comunicación constante para sincronizar el estado de cada módulo antes de integrarlo.
+•	Revisión conjunta del código antes de cada entrega (práctica de pair programming).
+
+Compromisos de mejora:
+•	Usar un repositorio Git con ramas por funcionalidad desde el inicio, en lugar de integrar todo al final.
+•	Documentar las decisiones de diseño en el momento en que se toman, no retrospectivamente.
+
+7. Práctica XP más útil
+¿Cuál fue la práctica XP más útil? ¿Por qué?
+Pair Programming fue la práctica más valiosa del proyecto. Al trabajar en pares sobre los módulos más complejos (GameState, ExpertAI y el sistema de colisiones), se detectaron errores de lógica en tiempo real que individualmente habrían tomado mucho más tiempo en depurar.
+
+Además, al rotar los roles de conductor y observador, ambos integrantes mantuvieron un entendimiento global del proyecto, lo que redujo la dependencia de una sola persona para cada módulo.
+
+8. Referencias
+¿Qué referencias usaron? ¿Cuál fue la más útil?
+•	Barker, J. (2005). Beginning Java Objects: From Concepts to Code (2.a ed.). APress. Cap. 15.1-15.2 (File I/O). — •	Barker, J. (2005). Beginning Java Objects: From Concepts to Code (2.a ed.). APress. Cap. 7.1-7.4 y Apendice F (polimorfismo y enlace dinamico).
+
